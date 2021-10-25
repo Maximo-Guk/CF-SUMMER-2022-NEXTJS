@@ -4,12 +4,12 @@ import User from '../../../types/User';
 // Fetch GET Implementation
 async function getData(endpoint: string) {
   // API Endpoint
-  const url = 'https://ga-api.maximoguk.workers.dev/' + endpoint;
+  const url = 'http://localhost:8787/' + endpoint;
   const response = await fetch(url, {
     method: 'GET',
     mode: 'cors',
     cache: 'no-cache',
-    credentials: 'omit',
+    credentials: 'include',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

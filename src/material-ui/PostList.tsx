@@ -4,6 +4,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
@@ -60,17 +61,18 @@ export default function PostList() {
                       secondary={post.content}
                     />
                   </ListItem>
-                  <img
-                    src={post.photo}
-                    alt="Uploaded Photo"
-                    loading="lazy"
-                    style={{
-                      width: 340,
-                      height: 340,
-                      overflow: 'hidden',
-                      marginLeft: 28,
-                    }}
-                  />
+                  <Box sx={{ textAlign: 'center' }}>
+                    <img
+                      src={post.photo}
+                      alt="Uploaded Photo"
+                      loading="lazy"
+                      style={{
+                        overflow: 'hidden',
+                        maxWidth: 340,
+                        maxHeight: 340,
+                      }}
+                    />
+                  </Box>
                   <ListItem>
                     <IconButton size="small">
                       {post.upVotes.length}

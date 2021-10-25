@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Router from 'next/router';
 import User from '../../types/User';
 import {
   getUser,
@@ -7,9 +8,10 @@ import {
 } from '../components/requests/BackendGetRequest';
 
 interface AuthContextTypes {
+  loading: boolean;
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
-  login: (userName: string) => Promise<User>;
+  login: (userName: string) => Promise<void | User>;
   logout: () => Promise<void>;
 }
 interface AuthProviderTypes {
@@ -19,17 +21,36 @@ interface AuthProviderTypes {
 export const AuthContext = React.createContext<AuthContextTypes>({} as AuthContextTypes);
 
 export default function AuthProvider({ children }: AuthProviderTypes) {
+  const [loading, setLoading] = React.useState(true);
+
   React.useEffect(() => {
-    //verification();
-  });
+    setLoading(true);
+    verification();
+  }, []);
 
   async function verification() {
     if (document.cookie) {
       try {
-        const response = await verifyUser();
+        const responseVerify = await verifyUser();
+        const response = await getUser(responseVerify.userName);
         setUser(response);
       } catch (error) {
         await logoutUser();
+      }
+    }
+    setLoading(false);
+  }
+
+  async function verificationNoLogout() {
+    //recursive beause workers kv doesn't always update values
+    if (document.cookie) {
+      try {
+        const responseVerify = await verifyUser();
+        const response = await getUser(responseVerify.userName);
+        setUser(response);
+        Router.push('/');
+      } catch (error) {
+        await verificationNoLogout();
       }
     }
   }
@@ -39,13 +60,14 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
   return (
     <AuthContext.Provider
       value={{
+        loading,
         user,
         setUser,
-        login: (userName) => {
-          return getUser(userName);
+        login: async (userName) => {
+          return await getUser(userName).catch(() => verificationNoLogout());
         },
-        logout: () => {
-          return logoutUser();
+        logout: async () => {
+          return await logoutUser().catch(() => setUser({} as User));
         },
       }}
     >

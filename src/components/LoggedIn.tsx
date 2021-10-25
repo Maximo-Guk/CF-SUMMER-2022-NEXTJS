@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box, Container, Link, Typography } from '@mui/material';
-import AppBar from '../material-ui/HomeAppBarGuest';
+import AppBar from '../material-ui/HomeAppBarLoggedIn';
 
 export default function LoggedIn() {
   return (

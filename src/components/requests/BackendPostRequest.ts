@@ -2,12 +2,12 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function postData(endpoint: string, data: any) {
   // API Endpoint
-  const url = 'https://ga-api.maximoguk.workers.dev/' + endpoint;
+  const url = 'http://localhost:8787/' + endpoint;
   const response = await fetch(url, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
-    credentials: 'omit',
+    credentials: 'include',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
