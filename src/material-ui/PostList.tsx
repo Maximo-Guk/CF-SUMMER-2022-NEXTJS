@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { AuthContext } from '../context/AuthProvider';
+import { DateTime } from 'luxon';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -8,6 +9,7 @@ import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import { getPosts } from '../components/requests/BackendGetRequest';
 import Post from '../../types/Post';
 import {
@@ -86,6 +88,11 @@ export default function PostList() {
                         maxHeight: 340,
                       }}
                     />
+                  </Box>
+                  <Box sx={{ textAlign: 'right' }}>
+                    <Typography variant="caption" gutterBottom>
+                      {DateTime.fromMillis(Number.parseInt(post.createdAt)).toRelative()}
+                    </Typography>
                   </Box>
                   <ListItem>
                     <IconButton onClick={() => handleUpvote(post.postId)} size="small">

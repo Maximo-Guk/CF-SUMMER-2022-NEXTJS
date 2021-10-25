@@ -7,6 +7,7 @@ specifiers:
   '@mui/material': ^5.0.4
   '@mui/styled-engine-sc': ^5.0.3
   '@mui/system': ^5.0.4
+  '@types/luxon': ^2.0.5
   '@types/react': ^17.0.31
   '@types/styled-components': ^5.1.15
   '@typescript-eslint/eslint-plugin': ^5.1.0
@@ -17,6 +18,7 @@ specifiers:
   eslint-config-next: ^11.1.2
   eslint-config-prettier: ^8.3.0
   eslint-config-typescript: ^3.0.0
+  luxon: ^2.0.2
   next: ^11.1.2
   next-transpile-modules: ^8.0.0
   react: ^17.0.2
@@ -33,6 +35,7 @@ dependencies:
   '@mui/styled-engine-sc': 5.0.3_6a1336e87a6bb15f1474f7ff742de8e0
   '@mui/system': 5.0.4_21bf2b134dc3c30897234d738ae45198
   clsx: 1.1.1
+  luxon: 2.0.2
   next: 11.1.2_8e3522129ef2816b3c737f17aecb3a9d
   next-transpile-modules: 8.0.0
   react: 17.0.2
@@ -41,6 +44,7 @@ dependencies:
   styled-components: 5.3.3_281a4fa50a045c9112baf635f3bc27a7
 
 devDependencies:
+  '@types/luxon': 2.0.5
   '@types/react': 17.0.31
   '@types/styled-components': 5.1.15
   '@typescript-eslint/eslint-plugin': 5.1.0_cceb079e15b82e20823304bc01a340f0
@@ -704,6 +708,10 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
+    dev: true
+
+  /@types/luxon/2.0.5:
+    resolution: {integrity: sha512-GKrG5v16BOs9XGpouu33hOkAFaiSDi3ZaDXG9F2yAoyzHRBtksZnI60VWY5aM/yAENCccBejrxw8jDY+9OVlxw==}
     dev: true
 
   /@types/node/16.11.1:
@@ -2590,6 +2598,10 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /luxon/2.0.2:
+    resolution: {integrity: sha512-ZRioYLCgRHrtTORaZX1mx+jtxKtKuI5ZDvHNAmqpUzGqSrR+tL4FVLn/CUGMA3h0+AKD1MAxGI5GnCqR5txNqg==}
+    dev: false
 
   /make-dir/3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
