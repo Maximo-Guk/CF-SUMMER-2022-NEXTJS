@@ -1,6 +1,10 @@
 import * as React from 'react';
 import User from '../../types/User';
-import { getUser, logoutUser } from '../components/requests/BackendGetRequest';
+import {
+  getUser,
+  logoutUser,
+  verifyUser,
+} from '../components/requests/BackendGetRequest';
 
 interface AuthContextTypes {
   user: User;
@@ -16,9 +20,19 @@ export const AuthContext = React.createContext<AuthContextTypes>({} as AuthConte
 
 export default function AuthProvider({ children }: AuthProviderTypes) {
   React.useEffect(() => {
-    const cookie = document.cookie.split('; ');
-    console.log(cookie)
+    //verification();
   });
+
+  async function verification() {
+    if (document.cookie) {
+      try {
+        const response = await verifyUser();
+        setUser(response);
+      } catch (error) {
+        await logoutUser();
+      }
+    }
+  }
 
   const [user, setUser] = React.useState<User>({} as User);
 

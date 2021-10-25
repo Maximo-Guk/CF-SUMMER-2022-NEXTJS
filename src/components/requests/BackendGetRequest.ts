@@ -32,6 +32,10 @@ export async function logoutUser() {
   return await getData('users/user/logout');
 }
 
+export async function verifyUser(): Promise<User> {
+  return await getData('verify/');
+}
+
 export async function getPosts(): Promise<Post[]> {
   return await getData('posts');
 }
