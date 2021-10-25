@@ -35,7 +35,7 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
       const response = await getUser(responseVerify.userName);
       setUser(response);
     } catch (error) {
-      await logoutUser();
+      console.log('Hi');
     }
     setLoading(false);
   }
