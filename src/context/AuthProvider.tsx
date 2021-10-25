@@ -30,14 +30,12 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
   }, []);
 
   async function verification() {
-    if (document.cookie) {
-      try {
-        const responseVerify = await verifyUser();
-        const response = await getUser(responseVerify.userName);
-        setUser(response);
-      } catch (error) {
-        await logoutUser();
-      }
+    try {
+      const responseVerify = await verifyUser();
+      const response = await getUser(responseVerify.userName);
+      setUser(response);
+    } catch (error) {
+      await logoutUser();
     }
     setLoading(false);
   }
