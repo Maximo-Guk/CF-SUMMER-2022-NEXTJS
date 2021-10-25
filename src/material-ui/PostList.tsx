@@ -114,6 +114,9 @@ export default function PostList() {
     try {
       await createPost(postTitle, postContent, postPhoto);
     } catch (error) {
+      setPostTitle('');
+      setPostContent('');
+      setPostPhoto('');
       getHomeFeed();
     }
   }
@@ -122,6 +125,7 @@ export default function PostList() {
     try {
       await commentOnPostById(postId, commentContent);
     } catch (error) {
+      setPostContent('');
       getHomeFeed();
     }
   }
@@ -308,14 +312,14 @@ export default function PostList() {
                           <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                               <Avatar sx={{ bgcolor: post.userBackgroundColor }}>
-                                {post.userName.split('')[0]}
+                                {comment.userName.split('')[0]}
                               </Avatar>
                             </ListItemAvatar>
                             <ListItemText
                               primary={comment.userName}
                               secondary={<Linkify>{comment.content}</Linkify>}
                             />
-                            {post.userName === user.userName ? (
+                            {comment.userName === user.userName ? (
                               <DeleteCommentMenu
                                 post={post}
                                 comment={comment}

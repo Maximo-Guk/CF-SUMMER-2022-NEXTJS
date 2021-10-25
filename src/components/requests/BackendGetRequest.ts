@@ -20,7 +20,7 @@ async function getData(endpoint: string) {
   if (response.ok) {
     return await response.json();
   } else {
-    throw response.text();
+    throw await response.text();
   }
 }
 

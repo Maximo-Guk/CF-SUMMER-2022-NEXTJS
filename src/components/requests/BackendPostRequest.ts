@@ -19,7 +19,7 @@ async function postData(endpoint: string, data: any) {
   if (response.ok) {
     return await response.json();
   } else {
-    throw response.text();
+    throw await response.text();
   }
 }
 
