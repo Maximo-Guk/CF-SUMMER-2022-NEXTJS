@@ -41,12 +41,10 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
   }
 
   async function verificationNoLogout() {
-    if (document.cookie) {
-      const responseVerify = await verifyUser();
-      const response = await getUser(responseVerify.userName);
-      setUser(response);
-      Router.push('/');
-    }
+    const responseVerify = await verifyUser();
+    const response = await getUser(responseVerify.userName);
+    setUser(response);
+    Router.push('/');
   }
 
   const [user, setUser] = React.useState<User>({} as User);
