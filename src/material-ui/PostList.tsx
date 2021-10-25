@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { AuthContext } from '../context/AuthProvider';
 import { DateTime } from 'luxon';
+import Linkify from 'linkify-react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -74,7 +75,7 @@ export default function PostList() {
                     </ListItemAvatar>
                     <ListItemText
                       primary={post.userName + ' --> ' + post.title}
-                      secondary={post.content}
+                      secondary={<Linkify>{post.content}</Linkify>}
                     />
                   </ListItem>
                   <Box sx={{ textAlign: 'center' }}>

@@ -18,6 +18,8 @@ specifiers:
   eslint-config-next: ^11.1.2
   eslint-config-prettier: ^8.3.0
   eslint-config-typescript: ^3.0.0
+  linkify-react: ^3.0.3
+  linkifyjs: ^3.0.3
   luxon: ^2.0.2
   next: ^11.1.2
   next-transpile-modules: ^8.0.0
@@ -35,6 +37,8 @@ dependencies:
   '@mui/styled-engine-sc': 5.0.3_6a1336e87a6bb15f1474f7ff742de8e0
   '@mui/system': 5.0.4_21bf2b134dc3c30897234d738ae45198
   clsx: 1.1.1
+  linkify-react: 3.0.3_linkifyjs@3.0.3+react@17.0.2
+  linkifyjs: 3.0.3
   luxon: 2.0.2
   next: 11.1.2_8e3522129ef2816b3c737f17aecb3a9d
   next-transpile-modules: 8.0.0
@@ -2541,6 +2545,20 @@ packages:
 
   /lines-and-columns/1.1.6:
     resolution: {integrity: sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=}
+    dev: false
+
+  /linkify-react/3.0.3_linkifyjs@3.0.3+react@17.0.2:
+    resolution: {integrity: sha512-CdERZyocGB+2sHYKMKltAWy5TyelgocnMI7SU5vdT0ojtZd1u8sRuntXrxjA3tvgTirtLm2nD7gDdJFaVXvDAw==}
+    peerDependencies:
+      linkifyjs: ^3.0.0
+      react: '>= 15.0.0'
+    dependencies:
+      linkifyjs: 3.0.3
+      react: 17.0.2
+    dev: false
+
+  /linkifyjs/3.0.3:
+    resolution: {integrity: sha512-ba5opS5wRHSbDC8VaiDdN14nPGm6LqyRsIPQZGG4qXV4scFdrPneT/uoZOaq9QAPBf6W9I9D/6tNSzWH//815Q==}
     dev: false
 
   /loader-utils/1.2.3:
