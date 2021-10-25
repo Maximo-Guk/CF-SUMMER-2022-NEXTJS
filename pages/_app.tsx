@@ -1,6 +1,7 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
+import AuthProvider from '../src/context/AuthProvider';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import theme from '../src/theme';
@@ -19,7 +20,9 @@ export default function MyApp(props: AppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
       </ThemeProvider>
     </React.Fragment>
   );

@@ -1,24 +1,10 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Link from '../src/Link';
-import AppBar from '../src/AppBar';
+import { AuthContext } from '../src/context/AuthProvider';
+import Guest from '../src/components/Guest';
+import LoggedIn from '../src/components/LoggedIn';
 
 export default function Index() {
-  return (
-    <>
-      <AppBar />
-      <Container maxWidth="sm">
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Next.js v5-beta with TypeScript example
-          </Typography>
-          <Link href="/d" color="secondary">
-            Go to the about page
-          </Link>
-        </Box>
-      </Container>
-    </>
-  );
+  const { user } = React.useContext(AuthContext);
+
+  return <>{user.userName ? <LoggedIn /> : <Guest />};</>;
 }

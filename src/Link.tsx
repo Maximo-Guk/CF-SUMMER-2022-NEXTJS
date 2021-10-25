@@ -20,17 +20,8 @@ export const NextLinkComposed = React.forwardRef<
   HTMLAnchorElement,
   NextLinkComposedProps
 >(function NextLinkComposed(props, ref) {
-  const {
-    to,
-    linkAs,
-    href,
-    replace,
-    scroll,
-    shallow,
-    prefetch,
-    locale,
-    ...other
-  } = props;
+  const { to, linkAs, href, replace, scroll, shallow, prefetch, locale, ...other } =
+    props;
 
   return (
     <NextLink
@@ -58,10 +49,7 @@ export type LinkProps = {
 
 // A styled version of the Next.js Link component:
 // https://nextjs.org/docs/#with-link
-const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  props,
-  ref,
-) {
+const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props, ref) {
   const {
     activeClassName = 'active',
     as: linkAs,
@@ -91,9 +79,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   }
 
   if (noLinkStyle) {
-    return (
-      <NextLinkComposed className={className} ref={ref} to={href} {...other} />
-    );
+    return <NextLinkComposed className={className} ref={ref} to={href} {...other} />;
   }
 
   return (
