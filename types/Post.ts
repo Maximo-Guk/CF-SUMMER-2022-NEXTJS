@@ -7,13 +7,13 @@ interface reactionsTypes {
   '🤢': string[];
 }
 
-interface commentsTypes {
+export interface commentsTypes {
   commentId: string;
   content: string;
   userName: string;
   userBackgroundColor: string;
   upVotes: string[];
-  reactions: reactionsTypes[];
+  reactions: reactionsTypes;
   createdAt: string;
 }
 

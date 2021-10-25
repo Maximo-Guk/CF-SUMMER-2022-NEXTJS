@@ -9,14 +9,23 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { getPosts } from '../components/requests/BackendGetRequest';
 import Post from '../../types/Post';
 import {
+  reactToCommentByIdAndPostId,
   reactToPostById,
+  upVoteCommentByIdAndPostId,
   upVotePostById,
 } from '../components/requests/BackendPostRequest';
+import {
+  removeCommentReactionByIdAndPostId,
+  removeCommentUpvoteByIdAndPostId,
+  removeReactionByPostId,
+  removeUpVoteByPostId,
+} from '../components/requests/BackendDeleteRequest';
+import PostReactions from './PostReactions';
+import CommentReactions from './CommentReactions';
 
 export default function PostList() {
   const { user } = React.useContext(AuthContext);
@@ -34,20 +43,42 @@ export default function PostList() {
     }
   }
 
-  async function handleUpvote(postId: string) {
-    await upVotePostById(postId);
+  async function handlePostUpvote(postId: string) {
+    const response = await upVotePostById(postId);
+    if (response !== 'Sucessfully upvoted post!') {
+      await removeUpVoteByPostId(postId);
+    }
     getHomeFeed();
   }
 
-  async function handleReaction(postId: string, type: string) {
-    await reactToPostById(postId, type);
+  async function handlePostReaction(postId: string, type: string) {
+    const response = await reactToPostById(postId, type);
+    if (response !== 'Sucessfully reacted to post!') {
+      await removeReactionByPostId(postId, type);
+    }
+    getHomeFeed();
+  }
+
+  async function handleCommentUpvote(postId: string, commentId: string) {
+    const response = await upVoteCommentByIdAndPostId(postId, commentId);
+    if (response !== 'Sucessfully upvoted commented!') {
+      await removeCommentUpvoteByIdAndPostId(postId, commentId);
+    }
+    getHomeFeed();
+  }
+
+  async function handleCommentReaction(postId: string, commentId: string, type: string) {
+    const response = await reactToCommentByIdAndPostId(postId, commentId, type);
+    if (response !== 'Sucessfully reacted to comment!') {
+      await removeCommentReactionByIdAndPostId(postId, commentId, type);
+    }
     getHomeFeed();
   }
 
   return (
     <List sx={{ width: '100%', maxWidth: 440, bgcolor: 'background.paper' }}>
       {!user.userName ? (
-        <Paper>
+        <Paper sx={{ marginBottom: 2 }}>
           <ListItem alignItems="flex-start">
             <ListItemAvatar>
               <Avatar sx={{ bgcolor: '#b71c1c' }}>A</Avatar>
@@ -66,7 +97,7 @@ export default function PostList() {
             .reverse()
             .map((post, index) => (
               <>
-                <Paper key={post.postId}>
+                <Paper key={post.postId} sx={{ marginBottom: 2 }}>
                   <ListItem alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar sx={{ bgcolor: post.userBackgroundColor }}>
@@ -90,59 +121,67 @@ export default function PostList() {
                       }}
                     />
                   </Box>
-                  <Box sx={{ textAlign: 'right' }}>
-                    <Typography variant="caption" gutterBottom>
-                      {DateTime.fromMillis(Number.parseInt(post.createdAt)).toRelative()}
-                    </Typography>
-                  </Box>
-                  <ListItem>
-                    <IconButton onClick={() => handleUpvote(post.postId)} size="small">
-                      {post.upVotes.length}
-                      👍
-                    </IconButton>
-                    <IconButton
-                      onClick={() => handleReaction('😀', post.postId)}
-                      size="small"
-                    >
-                      {post.reactions['😀'].length}
-                      😀
-                    </IconButton>
-                    <IconButton
-                      onClick={() => handleReaction('😂', post.postId)}
-                      size="small"
-                    >
-                      {post.reactions['😂'].length}
-                      😂
-                    </IconButton>
-                    <IconButton
-                      onClick={() => handleReaction('😭', post.postId)}
-                      size="small"
-                    >
-                      {post.reactions['😭'].length}
-                      😭
-                    </IconButton>
-                    <IconButton
-                      onClick={() => handleReaction('🥰', post.postId)}
-                      size="small"
-                    >
-                      {post.reactions['🥰'].length}
-                      🥰
-                    </IconButton>
-                    <IconButton
-                      onClick={() => handleReaction('😍', post.postId)}
-                      size="small"
-                    >
-                      {post.reactions['😍'].length}
-                      😍
-                    </IconButton>
-                    <IconButton
-                      onClick={() => handleReaction('🤢', post.postId)}
-                      size="small"
-                    >
-                      {post.reactions['🤢'].length}
-                      🤢
-                    </IconButton>
-                  </ListItem>
+                  {post.comments.length != 0 ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Typography variant="caption">
+                        {`Comments: ${post.comments.length}`}
+                      </Typography>
+                      <Typography variant="caption">
+                        {DateTime.fromMillis(
+                          Number.parseInt(post.createdAt),
+                        ).toRelative()}
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Typography variant="caption">
+                        {DateTime.fromMillis(
+                          Number.parseInt(post.createdAt),
+                        ).toRelative()}
+                      </Typography>
+                    </Box>
+                  )}
+
+                  <PostReactions
+                    post={post}
+                    handleUpvote={handlePostUpvote}
+                    handleReaction={handlePostReaction}
+                  />
+                  {post.comments.length != 0
+                    ? post.comments
+                        .slice(0)
+                        .reverse()
+                        .map((comment, index) => (
+                          <>
+                            <Paper key={comment.commentId}>
+                              <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                  <Avatar sx={{ bgcolor: post.userBackgroundColor }}>
+                                    {post.userName.split('')[0]}
+                                  </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                  primary={comment.userName}
+                                  secondary={<Linkify>{comment.content}</Linkify>}
+                                />
+                              </ListItem>
+                              <Box sx={{ textAlign: 'right' }}>
+                                <Typography variant="caption" gutterBottom>
+                                  {DateTime.fromMillis(
+                                    Number.parseInt(comment.createdAt),
+                                  ).toRelative()}
+                                </Typography>
+                              </Box>
+                              <CommentReactions
+                                post={post}
+                                comment={comment}
+                                handleUpvote={handleCommentUpvote}
+                                handleReaction={handleCommentReaction}
+                              />
+                            </Paper>
+                          </>
+                        ))
+                    : null}
                 </Paper>
               </>
             ))

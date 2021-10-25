@@ -19,7 +19,7 @@ async function deleteData(endpoint: string, data: any) {
   if (response.ok) {
     return await response.json();
   } else {
-    throw await response.json();
+    throw response;
   }
 }
 
