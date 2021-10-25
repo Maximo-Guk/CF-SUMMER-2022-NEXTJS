@@ -311,7 +311,7 @@ export default function PostList() {
                         <Paper key={comment.commentId}>
                           <ListItem alignItems="flex-start">
                             <ListItemAvatar>
-                              <Avatar sx={{ bgcolor: post.userBackgroundColor }}>
+                              <Avatar sx={{ bgcolor: comment.userBackgroundColor }}>
                                 {comment.userName.split('')[0]}
                               </Avatar>
                             </ListItemAvatar>
