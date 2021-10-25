@@ -59,51 +59,87 @@ export default function PostList() {
   }
 
   async function handlePostUpvote(postId: string) {
-    const response = await upVotePostById(postId);
-    if (response !== 'Sucessfully upvoted post!') {
-      await removeUpVoteByPostId(postId);
+    try {
+      await upVotePostById(postId);
+    } catch (error) {
+      if (error === 'User has already upvoted') {
+        await removeUpVoteByPostId(postId);
+      } else {
+        throw error;
+      }
     }
     getHomeFeed();
   }
 
   async function handlePostReaction(postId: string, type: string) {
-    const response = await reactToPostById(postId, type);
-    if (response !== 'Sucessfully reacted to post!') {
-      await removeReactionByPostId(postId, type);
+    try {
+      await reactToPostById(postId, type);
+    } catch (error) {
+      if (error === 'User has already reacted') {
+        await removeReactionByPostId(postId, type);
+      } else {
+        throw error;
+      }
     }
     getHomeFeed();
   }
 
   async function handleCommentUpvote(postId: string, commentId: string) {
-    const response = await upVoteCommentByIdAndPostId(postId, commentId);
-    if (response !== 'Sucessfully upvoted commented!') {
-      await removeCommentUpvoteByIdAndPostId(postId, commentId);
+    try {
+      await upVoteCommentByIdAndPostId(postId, commentId);
+    } catch (error) {
+      if (error === 'User has already upvoted this comment') {
+        await removeCommentUpvoteByIdAndPostId(postId, commentId);
+      } else {
+        throw error;
+      }
     }
     getHomeFeed();
   }
 
   async function handleCommentReaction(postId: string, commentId: string, type: string) {
-    const response = await reactToCommentByIdAndPostId(postId, commentId, type);
-    if (response !== 'Sucessfully reacted to comment!') {
-      await removeCommentReactionByIdAndPostId(postId, commentId, type);
+    try {
+      await reactToCommentByIdAndPostId(postId, commentId, type);
+    } catch (error) {
+      if (error === 'User has already reacted to this comment') {
+        await removeCommentReactionByIdAndPostId(postId, commentId, type);
+      } else {
+        throw error;
+      }
     }
     getHomeFeed();
   }
 
   async function handlePostCreate() {
-    await createPost(postTitle, postContent, postPhoto);
+    try {
+      await createPost(postTitle, postContent, postPhoto);
+    } catch (error) {
+      getHomeFeed();
+    }
   }
 
   async function handleCommentCreate(postId: string) {
-    await commentOnPostById(postId, commentContent);
+    try {
+      await commentOnPostById(postId, commentContent);
+    } catch (error) {
+      getHomeFeed();
+    }
   }
 
   async function handleDeletePost(postId: string) {
-    await removePostById(postId);
+    try {
+      await removePostById(postId);
+    } catch (error) {
+      getHomeFeed();
+    }
   }
 
   async function handleDeleteComment(postId: string, commentId: string) {
-    await removeCommentByIdAndPostId(postId, commentId);
+    try {
+      await removeCommentByIdAndPostId(postId, commentId);
+    } catch (error) {
+      getHomeFeed();
+    }
   }
 
   function readUploadedFileAsBase64(inputFile: any) {
