@@ -19,13 +19,17 @@ import {
   upVotePostById,
 } from '../components/requests/BackendPostRequest';
 import {
+  removeCommentByIdAndPostId,
   removeCommentReactionByIdAndPostId,
   removeCommentUpvoteByIdAndPostId,
+  removePostById,
   removeReactionByPostId,
   removeUpVoteByPostId,
 } from '../components/requests/BackendDeleteRequest';
 import PostReactions from './PostReactions';
 import CommentReactions from './CommentReactions';
+import DeletePostMenu from './DeletePostMenu';
+import DeleteCommentMenu from './DeleteCommentMenu';
 
 export default function PostList() {
   const { user } = React.useContext(AuthContext);
@@ -75,6 +79,14 @@ export default function PostList() {
     getHomeFeed();
   }
 
+  async function handleDeletePost(postId: string) {
+    await removePostById(postId);
+  }
+
+  async function handleDeleteComment(postId: string, commentId: string) {
+    await removeCommentByIdAndPostId(postId, commentId);
+  }
+
   return (
     <List sx={{ width: '100%', maxWidth: 440, bgcolor: 'background.paper' }}>
       {!user.userName ? (
@@ -108,6 +120,9 @@ export default function PostList() {
                       primary={post.userName + ' --> ' + post.title}
                       secondary={<Linkify>{post.content}</Linkify>}
                     />
+                    {post.userName === user.userName ? (
+                      <DeletePostMenu post={post} handleDelete={handleDeletePost} />
+                    ) : null}
                   </ListItem>
                   <Box sx={{ textAlign: 'center' }}>
                     <img
@@ -164,6 +179,13 @@ export default function PostList() {
                                   primary={comment.userName}
                                   secondary={<Linkify>{comment.content}</Linkify>}
                                 />
+                                {post.userName === user.userName ? (
+                                  <DeleteCommentMenu
+                                    post={post}
+                                    comment={comment}
+                                    handleDelete={handleDeleteComment}
+                                  />
+                                ) : null}
                               </ListItem>
                               <Box sx={{ textAlign: 'right' }}>
                                 <Typography variant="caption" gutterBottom>
