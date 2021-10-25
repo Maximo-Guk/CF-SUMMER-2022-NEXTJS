@@ -10,6 +10,10 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import { getPosts } from '../components/requests/BackendGetRequest';
 import Post from '../../types/Post';
+import {
+  reactToPostById,
+  upVotePostById,
+} from '../components/requests/BackendPostRequest';
 
 export default function PostList() {
   const { user } = React.useContext(AuthContext);
@@ -25,6 +29,16 @@ export default function PostList() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async function handleUpvote(postId: string) {
+    await upVotePostById(postId);
+    getHomeFeed();
+  }
+
+  async function handleReaction(postId: string, type: string) {
+    await reactToPostById(postId, type);
+    getHomeFeed();
   }
 
   return (
@@ -74,31 +88,49 @@ export default function PostList() {
                     />
                   </Box>
                   <ListItem>
-                    <IconButton size="small">
+                    <IconButton onClick={() => handleUpvote(post.postId)} size="small">
                       {post.upVotes.length}
                       👍
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      onClick={() => handleReaction('😀', post.postId)}
+                      size="small"
+                    >
                       {post.reactions['😀'].length}
                       😀
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      onClick={() => handleReaction('😂', post.postId)}
+                      size="small"
+                    >
                       {post.reactions['😂'].length}
                       😂
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      onClick={() => handleReaction('😭', post.postId)}
+                      size="small"
+                    >
                       {post.reactions['😭'].length}
                       😭
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      onClick={() => handleReaction('🥰', post.postId)}
+                      size="small"
+                    >
                       {post.reactions['🥰'].length}
                       🥰
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      onClick={() => handleReaction('😍', post.postId)}
+                      size="small"
+                    >
                       {post.reactions['😍'].length}
                       😍
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      onClick={() => handleReaction('🤢', post.postId)}
+                      size="small"
+                    >
                       {post.reactions['🤢'].length}
                       🤢
                     </IconButton>

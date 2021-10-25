@@ -6,14 +6,24 @@ import Typography from '@mui/material/Typography';
 import LoginForm from '../src/material-ui/LoginForm';
 
 export default function Login() {
-  const { login } = React.useContext(AuthContext);
+  const { login, verificationNoLogout } = React.useContext(AuthContext);
   const [buttonClicked, setButtonClicked] = React.useState(false);
+  const [loginErrorUser, setLoginErrorUser] = React.useState('');
   const [loginError, setLoginError] = React.useState('');
   const [userNameText, setUserNameText] = React.useState('');
 
   async function handleLogin() {
-    await login(userNameText);
-    setLoginError('Username is taken!');
+    try {
+      await login(userNameText);
+      if (userNameText === loginErrorUser) {
+        verificationNoLogout();
+      } else {
+        setLoginError('Username is taken!');
+      }
+    } catch (error) {
+      setLoginError('A server error occured, please try again.');
+      setLoginErrorUser(userNameText);
+    }
   }
 
   return (

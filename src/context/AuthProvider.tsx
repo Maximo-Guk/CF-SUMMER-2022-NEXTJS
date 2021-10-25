@@ -8,6 +8,7 @@ import {
 } from '../components/requests/BackendGetRequest';
 
 interface AuthContextTypes {
+  verificationNoLogout(): Promise<void>;
   loading: boolean;
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
@@ -42,16 +43,11 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
   }
 
   async function verificationNoLogout() {
-    //recursive beause workers kv doesn't always update values
     if (document.cookie) {
-      try {
-        const responseVerify = await verifyUser();
-        const response = await getUser(responseVerify.userName);
-        setUser(response);
-        Router.push('/');
-      } catch (error) {
-        await verificationNoLogout();
-      }
+      const responseVerify = await verifyUser();
+      const response = await getUser(responseVerify.userName);
+      setUser(response);
+      Router.push('/');
     }
   }
 
@@ -60,6 +56,7 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
   return (
     <AuthContext.Provider
       value={{
+        verificationNoLogout,
         loading,
         user,
         setUser,
