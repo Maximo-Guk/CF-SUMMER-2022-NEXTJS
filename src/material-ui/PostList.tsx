@@ -231,8 +231,8 @@ export default function PostList() {
                 </ListItem>
                 <Box sx={{ textAlign: 'center' }}>
                   <img
-                    src={post.photo}
-                    alt="Uploaded Photo"
+                    src={post.photo ? post.photo : ''}
+                    alt={post.photo ? 'Uploaded Photo' : ''}
                     loading="lazy"
                     style={{
                       overflow: 'hidden',
