@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function deleteData(endpoint: string, data: any) {
   // API Endpoint
-  const url = 'http://localhost:8787/' + endpoint;
+  const url = 'https://ga-api.maximoguk.workers.dev/' + endpoint;
   const response = await fetch(url, {
     method: 'DELETE',
     mode: 'cors',

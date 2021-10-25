@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from '@mui/material';
+import Container from '@mui/material/Container';
 import AppBar from '../material-ui/HomeAppBarGuest';
 import PostList from '../material-ui/PostList';
 

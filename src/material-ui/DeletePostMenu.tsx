@@ -22,7 +22,7 @@ export default function DeletePostMenu(props: propsTypes) {
   };
 
   return (
-    <div>
+    <>
       <IconButton
         id="delete-post-button"
         aria-controls="delete-menu"
@@ -51,6 +51,6 @@ export default function DeletePostMenu(props: propsTypes) {
           </Typography>
         </MenuItem>
       </Menu>
-    </div>
+    </>
   );
 }

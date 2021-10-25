@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function postData(endpoint: string, data: any) {
   // API Endpoint
-  const url = 'http://localhost:8787/' + endpoint;
+  const url = 'https://ga-api.maximoguk.workers.dev/' + endpoint;
   const response = await fetch(url, {
     method: 'POST',
     mode: 'cors',
@@ -23,15 +23,9 @@ async function postData(endpoint: string, data: any) {
   }
 }
 
-export async function createPost(
-  title: string,
-  userBackgroundColor: string,
-  content: string,
-  photo?: string,
-) {
+export async function createPost(title: string, content: string, photo?: string) {
   return await postData('posts/', {
     title: title,
-    userBackgroundColor: userBackgroundColor,
     content: content,
     photo: photo,
   });
