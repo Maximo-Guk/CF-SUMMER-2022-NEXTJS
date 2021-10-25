@@ -39,8 +39,8 @@ export async function reactToPostById(postId: string, type: string) {
   return await postData(`posts/${postId}/react`, { type: type });
 }
 
-export async function commentOnPostById(postId: string, comment: string) {
-  return await postData(`posts/${postId}/comments`, { comment: comment });
+export async function commentOnPostById(postId: string, content: string) {
+  return await postData(`posts/${postId}/comments`, { content: content });
 }
 
 export async function upVoteCommentByIdAndPostId(postId: string, commentId: string) {
