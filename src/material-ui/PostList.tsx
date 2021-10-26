@@ -64,35 +64,51 @@ export default function PostList() {
   }
 
   async function handlePostUpvote(postId: string) {
-    const response = await upVotePostById(postId);
-    if (response === 'User has already upvoted') {
-      await removeUpVoteByPostId(postId);
+    try {
+      await upVotePostById(postId);
+      getHomeFeed();
+    } catch (error) {
+      if (error === 'User has already upvoted') {
+        await removeUpVoteByPostId(postId);
+        getHomeFeed();
+      }
     }
-    getHomeFeed();
   }
 
   async function handlePostReaction(postId: string, type: string) {
-    const response = await reactToPostById(postId, type);
-    if (response === 'User has already reacted') {
-      await removeReactionByPostId(postId, type);
+    try {
+      await reactToPostById(postId, type);
+      getHomeFeed();
+    } catch (error) {
+      if (error === 'User has already reacted') {
+        await removeReactionByPostId(postId, type);
+        getHomeFeed();
+      }
     }
-    getHomeFeed();
   }
 
   async function handleCommentUpvote(postId: string, commentId: string) {
-    const response = await upVoteCommentByIdAndPostId(postId, commentId);
-    if (response === 'User has already upvoted this comment') {
-      await removeCommentUpvoteByIdAndPostId(postId, commentId);
+    try {
+      await upVoteCommentByIdAndPostId(postId, commentId);
+      getHomeFeed();
+    } catch (error) {
+      if (error === 'User has already upvoted this comment') {
+        await removeCommentUpvoteByIdAndPostId(postId, commentId);
+        getHomeFeed();
+      }
     }
-    getHomeFeed();
   }
 
   async function handleCommentReaction(postId: string, commentId: string, type: string) {
-    const response = await reactToCommentByIdAndPostId(postId, commentId, type);
-    if (response === 'User has already reacted to this comment') {
-      await removeCommentReactionByIdAndPostId(postId, commentId, type);
+    try {
+      await reactToCommentByIdAndPostId(postId, commentId, type);
+      getHomeFeed();
+    } catch (error) {
+      if (error === 'User has already reacted to this comment') {
+        await removeCommentReactionByIdAndPostId(postId, commentId, type);
+        getHomeFeed();
+      }
     }
-    getHomeFeed();
   }
 
   async function handlePostCreate() {
