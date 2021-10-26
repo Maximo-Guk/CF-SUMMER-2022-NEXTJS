@@ -17,7 +17,7 @@ async function deleteData(endpoint: string, data: any) {
     body: JSON.stringify(data),
   });
   if (response.ok) {
-    return await response.json();
+    return await response.text();
   } else {
     throw await response.text();
   }
