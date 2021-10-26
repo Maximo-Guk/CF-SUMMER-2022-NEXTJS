@@ -68,12 +68,12 @@ export default function PostList() {
       await upVotePostById(postId);
     } catch (error) {
       if (error === 'User has already upvoted') {
+        getHomeFeed();
         await removeUpVoteByPostId(postId);
       } else {
         throw error;
       }
     }
-    getHomeFeed();
   }
 
   async function handlePostReaction(postId: string, type: string) {
@@ -81,12 +81,12 @@ export default function PostList() {
       await reactToPostById(postId, type);
     } catch (error) {
       if (error === 'User has already reacted') {
+        getHomeFeed();
         await removeReactionByPostId(postId, type);
       } else {
         throw error;
       }
     }
-    getHomeFeed();
   }
 
   async function handleCommentUpvote(postId: string, commentId: string) {
@@ -94,12 +94,12 @@ export default function PostList() {
       await upVoteCommentByIdAndPostId(postId, commentId);
     } catch (error) {
       if (error === 'User has already upvoted this comment') {
+        getHomeFeed();
         await removeCommentUpvoteByIdAndPostId(postId, commentId);
       } else {
         throw error;
       }
     }
-    getHomeFeed();
   }
 
   async function handleCommentReaction(postId: string, commentId: string, type: string) {
@@ -107,12 +107,12 @@ export default function PostList() {
       await reactToCommentByIdAndPostId(postId, commentId, type);
     } catch (error) {
       if (error === 'User has already reacted to this comment') {
+        getHomeFeed();
         await removeCommentReactionByIdAndPostId(postId, commentId, type);
       } else {
         throw error;
       }
     }
-    getHomeFeed();
   }
 
   async function handlePostCreate() {
@@ -255,138 +255,136 @@ export default function PostList() {
       )}
 
       {posts
-        ? posts
-            .slice(0)
-            .reverse()
-            .map((post, index) => (
-              <Paper key={post.postId} sx={{ marginBottom: 2 }}>
-                <ListItem alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar sx={{ bgcolor: post.userBackgroundColor }}>
-                      {post.userName.split('')[0]}
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={post.userName + ' --> ' + post.title}
-                    secondary={<Linkify>{post.content}</Linkify>}
-                  />
-                  {post.userName === user.userName ? (
-                    <DeletePostMenu post={post} handleDelete={handleDeletePost} />
-                  ) : null}
-                </ListItem>
-                <Box sx={{ textAlign: 'center' }}>
-                  <img
-                    src={post.photo ? post.photo : ''}
-                    alt={post.photo ? 'Uploaded Photo' : ''}
-                    loading="lazy"
-                    style={{
-                      overflow: 'hidden',
-                      maxWidth: 340,
-                      maxHeight: 340,
-                    }}
-                  />
-                </Box>
-                {post.comments.length != 0 ? (
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="caption">
-                      {`Comments: ${post.comments.length}`}
-                    </Typography>
-                    <Typography variant="caption">
-                      {DateTime.fromMillis(Number.parseInt(post.createdAt)).toRelative()}
-                    </Typography>
-                  </Box>
-                ) : (
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Typography variant="caption">
-                      {DateTime.fromMillis(Number.parseInt(post.createdAt)).toRelative()}
-                    </Typography>
-                  </Box>
-                )}
-
-                <PostReactions
-                  post={post}
-                  handleUpvote={handlePostUpvote}
-                  handleReaction={handlePostReaction}
+        ? posts.map((post, index) => (
+            <Paper key={post.postId} sx={{ marginBottom: 2 }}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar sx={{ bgcolor: post.userBackgroundColor }}>
+                    {post.userName.split('')[0]}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={post.userName + ' --> ' + post.title}
+                  secondary={<Linkify>{post.content}</Linkify>}
                 />
-                {post.comments.length != 0
-                  ? post.comments
-                      .slice(0)
-                      .reverse()
-                      .map((comment, index) => (
-                        <Paper key={comment.commentId}>
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar sx={{ bgcolor: comment.userBackgroundColor }}>
-                                {comment.userName.split('')[0]}
-                              </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary={comment.userName}
-                              secondary={<Linkify>{comment.content}</Linkify>}
-                            />
-                            {comment.userName === user.userName ? (
-                              <DeleteCommentMenu
-                                post={post}
-                                comment={comment}
-                                handleDelete={handleDeleteComment}
-                              />
-                            ) : null}
-                          </ListItem>
-                          <Box sx={{ textAlign: 'right' }}>
-                            <Typography variant="caption" gutterBottom>
-                              {DateTime.fromMillis(
-                                Number.parseInt(comment.createdAt),
-                              ).toRelative()}
-                            </Typography>
-                          </Box>
-                          <CommentReactions
-                            post={post}
-                            comment={comment}
-                            handleUpvote={handleCommentUpvote}
-                            handleReaction={handleCommentReaction}
-                          />
-                        </Paper>
-                      ))
-                  : null}
-                {user.userName ? (
-                  <Paper sx={{ marginBottom: 4 }}>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Typography variant="caption">Post a comment!</Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        marginBottom: 1,
-                      }}
-                    >
-                      <TextField
-                        id="commentContent"
-                        label="Your Comment!"
-                        variant="filled"
-                        size="small"
-                        fullWidth
-                        onChange={(event) => setCommentContent(event.target.value)}
-                      />
-                    </Box>
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      onClick={() => handleCommentCreate(post.postId)}
-                    >
-                      Submit
-                    </Button>
-                  </Paper>
+                {post.userName === user.userName ? (
+                  <DeletePostMenu post={post} handleDelete={handleDeletePost} />
                 ) : null}
-              </Paper>
-            ))
+              </ListItem>
+              <Box sx={{ textAlign: 'center' }}>
+                <img
+                  src={post.photo ? post.photo : ''}
+                  alt={post.photo ? 'Uploaded Photo' : ''}
+                  loading="lazy"
+                  style={{
+                    overflow: 'hidden',
+                    maxWidth: 340,
+                    maxHeight: 340,
+                  }}
+                />
+              </Box>
+              {post.comments.length != 0 ? (
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography variant="caption">
+                    {`Comments: ${post.comments.length}`}
+                  </Typography>
+                  <Typography variant="caption">
+                    {DateTime.fromMillis(Number.parseInt(post.createdAt)).toRelative()}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Typography variant="caption">
+                    {DateTime.fromMillis(Number.parseInt(post.createdAt)).toRelative()}
+                  </Typography>
+                </Box>
+              )}
+
+              <PostReactions
+                post={post}
+                handleUpvote={handlePostUpvote}
+                handleReaction={handlePostReaction}
+              />
+              {post.comments.length != 0
+                ? post.comments
+                    .sort((a, b) => {
+                      return Number.parseInt(b.createdAt) - Number.parseInt(a.createdAt);
+                    })
+                    .map((comment, index) => (
+                      <Paper key={comment.commentId}>
+                        <ListItem alignItems="flex-start">
+                          <ListItemAvatar>
+                            <Avatar sx={{ bgcolor: comment.userBackgroundColor }}>
+                              {comment.userName.split('')[0]}
+                            </Avatar>
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={comment.userName}
+                            secondary={<Linkify>{comment.content}</Linkify>}
+                          />
+                          {comment.userName === user.userName ? (
+                            <DeleteCommentMenu
+                              post={post}
+                              comment={comment}
+                              handleDelete={handleDeleteComment}
+                            />
+                          ) : null}
+                        </ListItem>
+                        <Box sx={{ textAlign: 'right' }}>
+                          <Typography variant="caption" gutterBottom>
+                            {DateTime.fromMillis(
+                              Number.parseInt(comment.createdAt),
+                            ).toRelative()}
+                          </Typography>
+                        </Box>
+                        <CommentReactions
+                          post={post}
+                          comment={comment}
+                          handleUpvote={handleCommentUpvote}
+                          handleReaction={handleCommentReaction}
+                        />
+                      </Paper>
+                    ))
+                : null}
+              {user.userName ? (
+                <Paper sx={{ marginBottom: 4 }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Typography variant="caption">Post a comment!</Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      marginBottom: 1,
+                    }}
+                  >
+                    <TextField
+                      id="commentContent"
+                      label="Your Comment!"
+                      variant="filled"
+                      size="small"
+                      fullWidth
+                      onChange={(event) => setCommentContent(event.target.value)}
+                    />
+                  </Box>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    onClick={() => handleCommentCreate(post.postId)}
+                  >
+                    Submit
+                  </Button>
+                </Paper>
+              ) : null}
+            </Paper>
+          ))
         : null}
     </List>
   );
