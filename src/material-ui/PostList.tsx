@@ -52,7 +52,12 @@ export default function PostList() {
 
   async function getHomeFeed() {
     try {
-      setPosts(await getPosts());
+      const posts = await getPosts();
+      setPosts(
+        posts.sort((a, b) => {
+          return Number.parseInt(b.createdAt) - Number.parseInt(a.createdAt);
+        }),
+      );
     } catch (error) {
       console.log(error);
     }
@@ -368,7 +373,6 @@ export default function PostList() {
                         variant="filled"
                         size="small"
                         fullWidth
-                        value={commentContent}
                         onChange={(event) => setCommentContent(event.target.value)}
                       />
                     </Box>
