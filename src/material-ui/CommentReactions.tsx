@@ -11,6 +11,8 @@ interface propsTypes {
 }
 
 export default function CommentsReactions(props: propsTypes) {
+  // Populate each reaction with the number of reactions in comment
+  // associate handleUpvote and handleReaction with each reaction so they can be differentiated when being reacted to
   return (
     <ListItem>
       <IconButton

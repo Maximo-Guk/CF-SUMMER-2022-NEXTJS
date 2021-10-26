@@ -12,6 +12,8 @@ interface propsTypes {
   handleDelete(postId: string, commentId: string): Promise<void>;
 }
 
+// popup-material-ui menu
+// serves as a method to delete comments
 export default function DeleteCommentMenu(props: propsTypes) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -44,9 +46,7 @@ export default function DeleteCommentMenu(props: propsTypes) {
       >
         <MenuItem onClick={handleClose}>
           <Typography
-            onClick={() =>
-              props.handleDelete(props.post.postId, props.comment.commentId)
-            }
+            onClick={() => props.handleDelete(props.post.postId, props.comment.commentId)}
             color="red"
             variant="caption"
           >

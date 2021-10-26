@@ -38,6 +38,8 @@ import DeletePostMenu from './DeletePostMenu';
 import DeleteCommentMenu from './DeleteCommentMenu';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
+// lists all of the users posts, has logic for creating posts, commenting on posts, reacting on posts and comments
+// also displays alternative views based off login status
 export default function PostList() {
   const { user } = React.useContext(AuthContext);
   const [posts, setPosts] = React.useState([] as Post[]);
@@ -50,9 +52,11 @@ export default function PostList() {
     getHomeFeed();
   }, []);
 
+  //get latest posts from KV
   async function getHomeFeed() {
     try {
       const posts = await getPosts();
+      //sort posts by date
       setPosts(
         posts.sort((a, b) => {
           return Number.parseInt(b.createdAt) - Number.parseInt(a.createdAt);
@@ -64,6 +68,7 @@ export default function PostList() {
   }
 
   async function handlePostUpvote(postId: string) {
+    // if post has already been upvoted, downvote and vice-versa then refresh posts
     try {
       await upVotePostById(postId);
       getHomeFeed();
@@ -76,6 +81,7 @@ export default function PostList() {
   }
 
   async function handlePostReaction(postId: string, type: string) {
+    // if post has already been reacted to, un-react and vice-versa then refresh posts
     try {
       await reactToPostById(postId, type);
       getHomeFeed();
@@ -88,6 +94,7 @@ export default function PostList() {
   }
 
   async function handleCommentUpvote(postId: string, commentId: string) {
+    // if a comment has already been upvoted, downvote and vice-versa then refresh posts
     try {
       await upVoteCommentByIdAndPostId(postId, commentId);
       getHomeFeed();
@@ -100,6 +107,7 @@ export default function PostList() {
   }
 
   async function handleCommentReaction(postId: string, commentId: string, type: string) {
+    // if a comment has already been been reacted to, un-react and vice-versa then refresh posts
     try {
       await reactToCommentByIdAndPostId(postId, commentId, type);
       getHomeFeed();
@@ -112,6 +120,8 @@ export default function PostList() {
   }
 
   async function handlePostCreate() {
+    // create post and refresh the creation steps
+    // refresh posts when done
     await createPost(postTitle, postContent, postPhoto);
     setPostTitle('');
     setPostContent('');
@@ -120,22 +130,27 @@ export default function PostList() {
   }
 
   async function handleCommentCreate(postId: string) {
+    // create comment and refresh comment state (comments are not managed forms like post)
+    // refresh posts when done
     await commentOnPostById(postId, commentContent);
     setPostContent('');
     getHomeFeed();
   }
 
   async function handleDeletePost(postId: string) {
+    // delete post and refresh posts
     await removePostById(postId);
     getHomeFeed();
   }
 
   async function handleDeleteComment(postId: string, commentId: string) {
+    // delete comment and refresh posts
     await removeCommentByIdAndPostId(postId, commentId);
     getHomeFeed();
   }
 
   function readUploadedFileAsBase64(inputFile: any) {
+    // async await wrapper for promise based file-reader
     const reader = new FileReader();
 
     return new Promise((resolve, reject) => {
@@ -147,15 +162,18 @@ export default function PostList() {
       reader.onload = () => {
         resolve(reader.result);
       };
+      // process to base64
       reader.readAsDataURL(inputFile);
     });
   }
 
   async function handleFileUpload(event: any) {
+    // upload file as picture to be processed as base64 and saved to state / displayed as preview for user
     const fileContents = await readUploadedFileAsBase64(event.target.files[0]);
     setPostPhoto(fileContents as string);
   }
 
+  // lists primarily posts with conditional rendering for some components
   return (
     <List sx={{ width: '100%', maxWidth: 440, bgcolor: 'background.paper' }}>
       {!user.userName ? (

@@ -6,12 +6,14 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import theme from '../src/theme';
 
+// Next.js _app.tsx
+// Take note of material ui themeprovider, and the authprovider
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
   return (
     <React.Fragment>
       <Head>
-        <title>Next App</title>
+        <title>maximoguk.com Social App</title>
         <link href="/favicon.ico" rel="icon" />
         <meta
           content="minimum-scale=1, initial-scale=1, width=device-width"

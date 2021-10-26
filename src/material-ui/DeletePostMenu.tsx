@@ -11,6 +11,8 @@ interface propsTypes {
   handleDelete(postId: string): Promise<void>;
 }
 
+// popup-material-ui menu
+// serves as a method to delete posts
 export default function DeletePostMenu(props: propsTypes) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

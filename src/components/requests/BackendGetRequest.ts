@@ -17,6 +17,7 @@ async function getData(endpoint: string) {
     redirect: 'follow',
     referrerPolicy: 'strict-origin',
   });
+  // 2xx
   if (response.ok) {
     return await response.json();
   } else {
@@ -24,18 +25,22 @@ async function getData(endpoint: string) {
   }
 }
 
+// register user if no user under that username, otherwise return user
 export async function getUser(userName: string): Promise<User> {
   return await getData('users/' + userName);
 }
 
+// logout user, set cookie to max-age 0
 export async function logoutUser() {
   return await getData('users/user/logout');
 }
 
+// verify user, return userName as response
 export async function verifyUser(): Promise<User> {
   return await getData('verify/');
 }
 
+// get all posts
 export async function getPosts(): Promise<Post[]> {
   return await getData('posts');
 }

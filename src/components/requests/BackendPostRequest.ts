@@ -16,6 +16,7 @@ async function postData(endpoint: string, data: any) {
     referrerPolicy: 'strict-origin',
     body: JSON.stringify(data),
   });
+  // 2xx
   if (response.ok) {
     return await response.text();
   } else {
@@ -31,10 +32,13 @@ export async function createPost(title: string, content: string, photo?: string)
   });
 }
 
+// upvote post, each user can only upvote a post once
 export async function upVotePostById(postId: string) {
   return await postData(`posts/${postId}/upvote`, {});
 }
 
+// react to post with one of the valid emoji types
+// each user can react to post once with every emoji
 export async function reactToPostById(postId: string, type: string) {
   return await postData(`posts/${postId}/react`, { type: type });
 }
@@ -43,10 +47,12 @@ export async function commentOnPostById(postId: string, content: string) {
   return await postData(`posts/${postId}/comments`, { content: content });
 }
 
+// upvote comment by commentId and postId, each comment can only be upvoted once by each user
 export async function upVoteCommentByIdAndPostId(postId: string, commentId: string) {
   return await postData(`posts/${postId}/comments/${commentId}/upvote`, {});
 }
 
+// react to comment by commentId and postId, user can react once with each reaction type
 export async function reactToCommentByIdAndPostId(
   postId: string,
   commentId: string,

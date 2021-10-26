@@ -16,6 +16,7 @@ async function deleteData(endpoint: string, data: any) {
     referrerPolicy: 'strict-origin',
     body: JSON.stringify(data),
   });
+  // 2xx
   if (response.ok) {
     return await response.text();
   } else {
@@ -23,6 +24,7 @@ async function deleteData(endpoint: string, data: any) {
   }
 }
 
+// delete post by postId if user is author of that post
 export async function removePostById(postId: string) {
   return await deleteData('posts/' + postId, {});
 }
@@ -31,6 +33,7 @@ export async function removeUpVoteByPostId(postId: string) {
   return await deleteData(`posts/${postId}/upvote`, {});
 }
 
+// remove reaction from post, type is passed in so we know which emoji they react with initally
 export async function removeReactionByPostId(postId: string, type: string) {
   return await deleteData(`posts/${postId}/react`, { type: type });
 }

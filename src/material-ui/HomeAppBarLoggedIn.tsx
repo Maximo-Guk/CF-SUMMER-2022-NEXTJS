@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
+// This is the appbar user sees on the index page when authenticated
 export default function HomeAppBar() {
   const { user, logout } = React.useContext(AuthContext);
   return (

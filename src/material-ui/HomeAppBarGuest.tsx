@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
+// This is the appbar guests see on the index page
 export default function HomeAppBar() {
   const router = useRouter();
   return (

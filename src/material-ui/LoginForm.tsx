@@ -8,6 +8,8 @@ interface propsTypes {
   setUserNameText: React.Dispatch<React.SetStateAction<string>>;
 }
 
+// material-ui form template that comes with avatar account circle on the left
+// serves as the login form on the login page
 export default function LoginForm(props: propsTypes) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'flex-end', marginBottom: 1 }}>
