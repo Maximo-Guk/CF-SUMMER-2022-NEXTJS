@@ -29,7 +29,7 @@ export async function createPost(
   content: string,
   username: string,
   photo: string,
-) {
+): Promise<string> {
   return await postData('posts/', {
     title: title,
     content: content,
@@ -39,22 +39,28 @@ export async function createPost(
 }
 
 // upvote post, each user can only upvote a post once
-export async function upVotePostById(postId: string) {
+export async function upVotePostById(postId: string): Promise<string> {
   return await postData(`posts/${postId}/upvote`, {});
 }
 
 // react to post with one of the valid emoji types
 // each user can react to post once with every emoji
-export async function reactToPostById(postId: string, type: string) {
+export async function reactToPostById(postId: string, type: string): Promise<string> {
   return await postData(`posts/${postId}/react`, { type: type });
 }
 
-export async function commentOnPostById(postId: string, content: string) {
+export async function commentOnPostById(
+  postId: string,
+  content: string,
+): Promise<string> {
   return await postData(`posts/${postId}/comments`, { content: content });
 }
 
 // upvote comment by commentId and postId, each comment can only be upvoted once by each user
-export async function upVoteCommentByIdAndPostId(postId: string, commentId: string) {
+export async function upVoteCommentByIdAndPostId(
+  postId: string,
+  commentId: string,
+): Promise<string> {
   return await postData(`posts/${postId}/comments/${commentId}/upvote`, {});
 }
 
@@ -63,6 +69,6 @@ export async function reactToCommentByIdAndPostId(
   postId: string,
   commentId: string,
   type: string,
-) {
+): Promise<string> {
   return await postData(`posts/${postId}/comments/${commentId}/react`, { type: type });
 }

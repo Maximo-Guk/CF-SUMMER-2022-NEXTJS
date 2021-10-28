@@ -25,27 +25,33 @@ async function deleteData(endpoint: string, data: any) {
 }
 
 // delete post by postId if user is author of that post
-export async function removePostById(postId: string) {
+export async function removePostById(postId: string): Promise<string> {
   return await deleteData('posts/' + postId, {});
 }
 
-export async function removeUpVoteByPostId(postId: string) {
+export async function removeUpVoteByPostId(postId: string): Promise<string> {
   return await deleteData(`posts/${postId}/upvote`, {});
 }
 
 // remove reaction from post, type is passed in so we know which emoji they react with initally
-export async function removeReactionByPostId(postId: string, type: string) {
+export async function removeReactionByPostId(
+  postId: string,
+  type: string,
+): Promise<string> {
   return await deleteData(`posts/${postId}/react`, { type: type });
 }
 
-export async function removeCommentByIdAndPostId(postId: string, commentId: string) {
+export async function removeCommentByIdAndPostId(
+  postId: string,
+  commentId: string,
+): Promise<string> {
   return await deleteData(`posts/${postId}/comments/${commentId}`, {});
 }
 
 export async function removeCommentUpvoteByIdAndPostId(
   postId: string,
   commentId: string,
-) {
+): Promise<string> {
   return await deleteData(`posts/${postId}/comments/${commentId}/upvote`, {});
 }
 
@@ -53,6 +59,6 @@ export async function removeCommentReactionByIdAndPostId(
   postId: string,
   commentId: string,
   type: string,
-) {
+): Promise<string> {
   return await deleteData(`posts/${postId}/comments/${commentId}/react`, { type: type });
 }
