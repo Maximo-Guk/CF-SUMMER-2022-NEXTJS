@@ -13,7 +13,7 @@ interface AuthContextTypes {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
   login: (userName: string) => Promise<void | User>;
-  logout: () => Promise<void>;
+  logout: () => Promise<string | void>;
 }
 interface AuthProviderTypes {
   children: React.ReactNode;
@@ -37,7 +37,7 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
   async function verification() {
     try {
       const responseVerify = await verifyUser();
-      const response = await getUser(responseVerify.userName);
+      const response = await getUser(responseVerify);
       setUser(response);
     } catch (error) {
       console.log(error);
@@ -50,7 +50,7 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
   // then push the route back to homepage (very similar to verification method)
   async function verificationPush() {
     const responseVerify = await verifyUser();
-    const response = await getUser(responseVerify.userName);
+    const response = await getUser(responseVerify);
     setUser(response);
     Router.push('/');
   }

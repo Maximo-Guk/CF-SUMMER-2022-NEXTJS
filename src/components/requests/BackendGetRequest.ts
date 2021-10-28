@@ -19,7 +19,7 @@ async function getData(endpoint: string) {
   });
   // 2xx
   if (response.ok) {
-    return await response.json();
+    return response;
   } else {
     throw await response.text();
   }
@@ -27,24 +27,24 @@ async function getData(endpoint: string) {
 
 // register user if no user under that username, otherwise return user
 export async function getUser(userName: string): Promise<User> {
-  return await getData('users/' + userName);
+  return await (await getData('users/' + userName)).json();
 }
 
 // logout user, set cookie to max-age 0
-export async function logoutUser() {
-  return await getData('users/user/logout');
+export async function logoutUser(): Promise<string> {
+  return await (await getData('users/user/logout')).text();
 }
 
 // verify user, return userName as response
-export async function verifyUser(): Promise<User> {
-  return await getData('verify/');
+export async function verifyUser(): Promise<string> {
+  return await (await getData('verify/')).text();
 }
 
 // get all posts
 export async function getPosts(): Promise<Post[]> {
-  return await getData('posts');
+  return await (await getData('posts')).json();
 }
 
 export async function getPostById(postId: string): Promise<Post> {
-  return await getData('posts/' + postId);
+  return await (await getData('posts/' + postId)).json();
 }
