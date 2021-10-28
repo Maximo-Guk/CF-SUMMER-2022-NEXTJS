@@ -71,7 +71,9 @@ export default function AuthProvider({ children }: AuthProviderTypes) {
         },
         logout: async () => {
           // log user out, by contacting logout endpoint and setting main user to empty object
-          return await logoutUser().catch(() => setUser({} as User));
+          return await logoutUser()
+            .then(() => setUser({} as User))
+            .catch(() => setUser({} as User));
         },
       }}
     >
