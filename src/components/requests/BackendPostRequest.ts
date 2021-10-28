@@ -24,10 +24,16 @@ async function postData(endpoint: string, data: any) {
   }
 }
 
-export async function createPost(title: string, content: string, photo?: string) {
+export async function createPost(
+  title: string,
+  content: string,
+  username: string,
+  photo: string,
+) {
   return await postData('posts/', {
     title: title,
     content: content,
+    username: username,
     photo: photo,
   });
 }

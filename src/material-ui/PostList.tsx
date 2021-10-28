@@ -122,7 +122,7 @@ export default function PostList() {
   async function handlePostCreate() {
     // create post and refresh the creation steps
     // refresh posts when done
-    await createPost(postTitle, postContent, postPhoto);
+    await createPost(postTitle, postContent, user.userName, postPhoto);
     setPostTitle('');
     setPostContent('');
     setPostPhoto('');
