@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { AuthContext } from '../context/AuthProvider';
 import { DateTime } from 'luxon';
 import Linkify from 'linkify-react';

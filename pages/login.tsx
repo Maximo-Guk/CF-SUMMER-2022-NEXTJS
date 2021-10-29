@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { AuthContext } from '../src/context/AuthProvider';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';

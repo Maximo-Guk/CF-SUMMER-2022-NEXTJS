@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Post from '../../types/Post';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
