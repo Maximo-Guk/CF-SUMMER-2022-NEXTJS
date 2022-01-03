@@ -1,5 +1,5 @@
-import Post from '../../../types/Post';
-import User from '../../../types/User';
+import type Post from '../../../types/Post';
+import type User from '../../../types/User';
 
 // Fetch GET Implementation
 async function getData(endpoint: string) {

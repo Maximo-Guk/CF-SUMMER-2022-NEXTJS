@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
-import User from '../../types/User';
+import type User from '../../types/User';
 import {
   getUser,
   logoutUser,

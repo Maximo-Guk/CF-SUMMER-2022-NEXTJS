@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import IconButton from '@mui/material/IconButton';
 import { getPosts } from '../components/requests/BackendGetRequest';
-import Post from '../../types/Post';
+import type Post from '../../types/Post';
 import {
   commentOnPostById,
   createPost,
