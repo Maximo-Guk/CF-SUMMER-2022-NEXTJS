@@ -31,7 +31,6 @@ export default function Index() {
           <CircularProgress />
         </Container>
       )}
-      ;
     </>
   );
 }
